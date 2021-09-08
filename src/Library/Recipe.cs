@@ -15,6 +15,15 @@ namespace Full_GRASP_And_SOLID.Library
 
         public Product FinalProduct { get; set; }
 
+        // Agrego una property para poder acceder a los steps desde fuera de la clase Recipe
+        public ArrayList Steps
+        {
+            get
+            {
+                return this.steps;
+            }
+        }
+
         public void AddStep(Step step)
         {
             this.steps.Add(step);
@@ -25,6 +34,21 @@ namespace Full_GRASP_And_SOLID.Library
             this.steps.Remove(step);
         }
 
+        /*
+        La receta va a ser la responsable de calcular del precio total, ya que es quien tiene la cantidad de pasos necesarios
+        para poder completarla
+        */
+        public double GetProductsCost()
+        {
+            double total = 0;
+            foreach (Step s in this.steps)
+            {
+                total += s.costPerStep();
+            }
+            return total;
+        }
+
+        /*
         public void PrintRecipe()
         {
             Console.WriteLine($"Receta de {this.FinalProduct.Description}:");
@@ -34,5 +58,6 @@ namespace Full_GRASP_And_SOLID.Library
                     $"usando '{step.Equipment.Description}' durante {step.Time}");
             }
         }
+        */
     }
 }
